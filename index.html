@@ -170,6 +170,9 @@ td.yes { color: var(--turtle); font-weight: 600; }
 #monday .stat:nth-child(2) { --c: var(--mhm-b); }
 #monday .stat:nth-child(3) { --c: var(--mhm-a); }
 #monday .type .tag { background: var(--mhm-b); color: #fff; }
+#monday .mhm-corner { position: absolute; width: clamp(64px, 9vw, 104px); opacity: .92; pointer-events: none; z-index: 1; }
+#monday .mhm-corner.tl { top: 8px; left: 8px; }
+#monday .mhm-corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
 
 /* Members: taped-up profile cards */
 .members { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin-top: 8px; }
@@ -319,6 +322,32 @@ footer p { color: var(--muted); font-size: .9rem; }
      ========================================================= -->
 <section class="mhm home-view" id="monday" style="margin-top: clamp(48px, 8vw, 88px);">
   <span class="pin" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16h14v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1Z"/></svg></span>
+  <svg class="mhm-corner tl" viewBox="0 0 160 160" aria-hidden="true">
+    <ellipse cx="34" cy="42" rx="32" ry="14" transform="rotate(-20 34 42)" style="fill:var(--mhm-b)" opacity=".5"/>
+    <ellipse cx="18" cy="78" rx="22" ry="10" transform="rotate(35 18 78)" style="fill:var(--turtle)" opacity=".35"/>
+    <g transform="translate(58 92)">
+      <ellipse cx="-17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
+      <ellipse cx="0" cy="-2" rx="17" ry="26" style="fill:var(--mhm-a)"/>
+      <ellipse cx="17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
+    </g>
+    <rect x="52" y="48" width="11" height="20" rx="4" transform="rotate(-10 57.5 58)" style="fill:#7a5a35"/>
+    <path d="M64 50c9-9 3-17 11-24" stroke="var(--turtle)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="120" cy="110" r="5" style="fill:var(--mhm-b)"/>
+    <circle cx="105" cy="130" r="4" style="fill:var(--sun)"/>
+  </svg>
+  <svg class="mhm-corner tr" viewBox="0 0 160 160" aria-hidden="true">
+    <ellipse cx="34" cy="42" rx="32" ry="14" transform="rotate(-20 34 42)" style="fill:var(--mhm-b)" opacity=".5"/>
+    <ellipse cx="18" cy="78" rx="22" ry="10" transform="rotate(35 18 78)" style="fill:var(--turtle)" opacity=".35"/>
+    <g transform="translate(58 92)">
+      <ellipse cx="-17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
+      <ellipse cx="0" cy="-2" rx="17" ry="26" style="fill:var(--mhm-a)"/>
+      <ellipse cx="17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
+    </g>
+    <rect x="52" y="48" width="11" height="20" rx="4" transform="rotate(-10 57.5 58)" style="fill:#7a5a35"/>
+    <path d="M64 50c9-9 3-17 11-24" stroke="var(--turtle)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="120" cy="110" r="5" style="fill:var(--mhm-b)"/>
+    <circle cx="105" cy="130" r="4" style="fill:var(--sun)"/>
+  </svg>
   <div class="wrap">
     <div class="mhm-top">
       <div class="sec-head" style="margin: 0;">
@@ -331,10 +360,11 @@ footer p { color: var(--muted); font-size: .9rem; }
     <p class="def"><strong>Gratitude</strong> is an emotion you feel when expressing thankfulness for the things in your life. It can also be practiced as a way to cope with stress and be more present.</p>
 
     <div class="stats">
-      <div class="stat"><b>Happier</b><span>mood and a more grateful outlook on life</span></div>
-      <div class="stat"><b>Stronger</b><span>immune system</span></div>
-      <div class="stat"><b>Better</b><span>sleep quality</span></div>
+      <div class="stat"><b>Happier</b><span>the “gratitude visit” exercise produced the biggest happiness boost of 6 exercises tested, in a 577-person study</span></div>
+      <div class="stat"><b>Stronger</b><span>8 weeks of gratitude journaling lowered inflammation markers in a heart-health study</span></div>
+      <div class="stat"><b>Better</b><span>higher gratitude was linked to better sleep quality, longer sleep, and falling asleep faster</span></div>
     </div>
+    <p class="source">Research: Seligman, Steen, Park &amp; Peterson (2005), <i>American Psychologist</i>, on the “gratitude visit.” Redwine et al. (2016), <i>Psychosomatic Medicine</i>, on gratitude journaling and inflammation. Wood, Joseph, Lloyd &amp; Atkins (2009), <i>Journal of Psychosomatic Research</i>, on gratitude and sleep.</p>
 
     <div class="sub">
       <h3 style="font-weight: 700; font-size: 1.5rem;">Why practice gratitude?</h3>

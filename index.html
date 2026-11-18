@@ -190,6 +190,8 @@ td.yes { color: var(--turtle); font-weight: 600; }
 #monday .jar-count { font-size: .92rem; color: var(--muted); font-weight: 600; }
 #monday .jar-notes-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; max-height: 140px; overflow-y: auto; }
 #monday .jar-notes-list li { background: var(--bg); border: 1px dashed var(--mhm-b); border-radius: 8px; padding: 6px 10px; font-size: .88rem; color: var(--fg); }
+#monday .jar-reset { justify-self: start; background: none; border: 0; padding: 2px 0; margin-top: 2px; font-family: var(--body); font-size: .85rem; font-weight: 600; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+#monday .jar-reset:hover { color: var(--mhm-a); }
 @media (max-width: 560px) { #monday .jar-widget { grid-template-columns: 1fr; justify-items: center; text-align: center; } #monday .jar-form { justify-content: center; } }
 
 /* Members: taped-up profile cards */
@@ -435,6 +437,7 @@ footer p { color: var(--muted); font-size: .9rem; }
         </form>
         <p class="jar-count" id="jarCount">Your jar is empty — add your first note!</p>
         <ul class="jar-notes-list" id="jarNotesList" hidden></ul>
+        <button type="button" id="jarReset" class="jar-reset" hidden>Restart jar</button>
       </div>
     </div>
 
@@ -759,6 +762,7 @@ footer p { color: var(--muted); font-size: .9rem; }
   var fill = document.getElementById('jarFill');
   var countEl = document.getElementById('jarCount');
   var listEl = document.getElementById('jarNotesList');
+  var resetBtn = document.getElementById('jarReset');
   if (!form || !input || !fill || !countEl) return;
 
   var palette = ['#c9682a', '#a996d6', '#5c8a42', '#eeb24c', '#d9487a'];
@@ -805,6 +809,8 @@ footer p { color: var(--muted); font-size: .9rem; }
         listEl.appendChild(li);
       });
     }
+
+    if (resetBtn) resetBtn.hidden = notes.length === 0;
   }
 
   form.addEventListener('submit', function (e) {
@@ -817,6 +823,16 @@ footer p { color: var(--muted); font-size: .9rem; }
     render();
     input.focus();
   });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      if (notes.length === 0) return;
+      if (!window.confirm('Empty your gratitude jar? This removes all ' + notes.length + ' of your notes and can’t be undone.')) return;
+      notes = [];
+      save(notes);
+      render();
+    });
+  }
 
   render();
 })();

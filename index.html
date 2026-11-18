@@ -173,6 +173,24 @@ td.yes { color: var(--turtle); font-weight: 600; }
 #monday .mhm-corner { position: absolute; width: clamp(64px, 9vw, 104px); opacity: .92; pointer-events: none; z-index: 1; }
 #monday .mhm-corner.tl { top: 8px; left: 8px; }
 #monday .mhm-corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+#monday .jar-widget { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 26px; align-items: center; margin-top: 28px; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 22px; }
+#monday .jar-wrap { position: relative; width: 140px; height: 180px; flex: none; }
+#monday .jar-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+#monday .jar-fill {
+  position: absolute; left: 0; top: 0; width: 140px; height: 180px; z-index: 1; box-sizing: border-box;
+  clip-path: path("M32 52 H108 V146 a10 10 0 0 1-10 10 H42 a10 10 0 0 1-10-10 Z");
+  display: flex; flex-direction: row; flex-wrap: wrap-reverse; align-content: flex-start; justify-content: center;
+  gap: 3px; padding: 6px;
+}
+#monday .jar-note { height: 14px; border-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,.18); flex: none; }
+#monday .jar-side { display: grid; gap: 10px; }
+#monday .jar-form { display: flex; gap: 8px; flex-wrap: wrap; }
+#monday .jar-form input { flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 999px; border: 2px solid var(--line); font-family: var(--body); font-size: .95rem; background: var(--bg); color: var(--fg); }
+#monday .jar-form input:focus-visible { outline: 3px solid var(--sun); outline-offset: 1px; }
+#monday .jar-count { font-size: .92rem; color: var(--muted); font-weight: 600; }
+#monday .jar-notes-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; max-height: 140px; overflow-y: auto; }
+#monday .jar-notes-list li { background: var(--bg); border: 1px dashed var(--mhm-b); border-radius: 8px; padding: 6px 10px; font-size: .88rem; color: var(--fg); }
+@media (max-width: 560px) { #monday .jar-widget { grid-template-columns: 1fr; justify-items: center; text-align: center; } #monday .jar-form { justify-content: center; } }
 
 /* Members: taped-up profile cards */
 .members { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin-top: 8px; }
@@ -394,6 +412,30 @@ footer p { color: var(--muted); font-size: .9rem; }
         <p>Take some time to go outside and reflect on the things you're grateful for, big or small.</p>
         <p class="ex">Notice 3 things on your walk you're thankful for.</p>
       </article>
+    </div>
+
+    <div class="sub">
+      <h3 style="font-weight: 700; font-size: 1.5rem;">Try it: your gratitude jar</h3>
+      <p class="lede">Type something you're grateful for and drop it in. Your jar fills up the more you add — come back anytime and keep going.</p>
+    </div>
+    <div class="jar-widget">
+      <div class="jar-wrap">
+        <div class="jar-fill" id="jarFill" aria-hidden="true"></div>
+        <svg class="jar-svg" viewBox="0 0 140 180" aria-hidden="true">
+          <rect x="40" y="2" width="60" height="10" rx="3" style="fill:#9c7a4f"/>
+          <rect x="35" y="10" width="70" height="16" rx="4" style="fill:#7a5a35"/>
+          <path d="M30 26 H110 V34 a16 16 0 0 1 8 14 V156 a14 14 0 0 1-14 14 H36 a14 14 0 0 1-14-14 V48 a16 16 0 0 1 8-14 Z"
+                style="fill:rgba(255,255,255,.4); stroke:var(--mhm-a); stroke-width:3;"/>
+        </svg>
+      </div>
+      <div class="jar-side">
+        <form id="jarForm" class="jar-form">
+          <input id="jarInput" type="text" maxlength="120" placeholder="I'm grateful for…" aria-label="I'm grateful for" autocomplete="off" required>
+          <button type="submit" class="btn">Add to jar</button>
+        </form>
+        <p class="jar-count" id="jarCount">Your jar is empty — add your first note!</p>
+        <ul class="jar-notes-list" id="jarNotesList" hidden></ul>
+      </div>
     </div>
 
     <div class="sub"><h3 style="font-weight: 700; font-size: 1.25rem;">Before you start</h3></div>
@@ -708,6 +750,75 @@ footer p { color: var(--muted); font-size: .9rem; }
   }
   window.addEventListener('hashchange', syncRoute);
   syncRoute();
+})();
+
+(function () {
+  var STORAGE_KEY = 'hooha-gratitude-jar-v1';
+  var form = document.getElementById('jarForm');
+  var input = document.getElementById('jarInput');
+  var fill = document.getElementById('jarFill');
+  var countEl = document.getElementById('jarCount');
+  var listEl = document.getElementById('jarNotesList');
+  if (!form || !input || !fill || !countEl) return;
+
+  var palette = ['#c9682a', '#a996d6', '#5c8a42', '#eeb24c', '#d9487a'];
+  var FULL_AT = 18;
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) { return []; }
+  }
+  function save(notes) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(notes)); } catch (e) {}
+  }
+
+  var notes = load();
+
+  function render() {
+    fill.innerHTML = '';
+    notes.slice(-40).forEach(function (note, i) {
+      var chip = document.createElement('span');
+      chip.className = 'jar-note';
+      chip.style.width = (18 + (i % 5) * 3) + 'px';
+      chip.style.background = palette[i % palette.length];
+      chip.style.transform = 'rotate(' + (((i % 7) - 3) * 2) + 'deg)';
+      fill.appendChild(chip);
+    });
+
+    if (notes.length === 0) {
+      countEl.textContent = 'Your jar is empty — add your first note!';
+    } else if (notes.length === 1) {
+      countEl.textContent = '1 note in your jar.';
+    } else {
+      countEl.textContent = notes.length + ' notes in your jar' + (notes.length >= FULL_AT ? ' — it’s overflowing with gratitude! ✨' : '.');
+    }
+
+    if (listEl) {
+      listEl.innerHTML = '';
+      listEl.hidden = notes.length === 0;
+      notes.slice().reverse().forEach(function (note) {
+        var li = document.createElement('li');
+        li.textContent = note;
+        listEl.appendChild(li);
+      });
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var val = (input.value || '').trim();
+    if (!val) return;
+    notes.push(val.slice(0, 120));
+    save(notes);
+    input.value = '';
+    render();
+    input.focus();
+  });
+
+  render();
 })();
 </script>
 

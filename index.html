@@ -109,7 +109,7 @@ section { padding-block: clamp(40px, 7vw, 72px); position: relative; }
 
 /* Mental Health Monday: the pinned weekly post, scrapbook-style */
 .mhm { background: var(--pink-soft); border-block: 3px dashed var(--pink); }
-.mhm-top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.mhm-top { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
 .pin { position: absolute; top: 14px; left: 50%; translate: -50% 0; color: var(--hibiscus); opacity: .85; }
 .week { display: inline-flex; flex-direction: column; align-items: center; padding: 8px 20px 12px; border-radius: 4px 4px 12px 12px; background: var(--surface); border: 2px solid var(--line); font-variant-numeric: tabular-nums; rotate: 2deg; box-shadow: 0 8px 16px -10px rgba(70,54,42,.4); }
 .week::before { content: "WEEK OF"; display: block; font-size: .65rem; font-weight: 700; letter-spacing: .14em; background: var(--hibiscus); color: var(--on-accent); margin: -8px -20px 8px; padding: 3px 0; text-align: center; border-radius: 2px 2px 0 0; }
@@ -153,6 +153,7 @@ td.yes { color: var(--turtle); font-weight: 600; }
    this week's Instagram graphic */
 #monday {
   --mhm-a: #c2577e;
+  --mhm-a-text: #a8426a;
   --mhm-b: #5f9d6e;
   background-color: #fdf1f4;
   background-image: repeating-linear-gradient(90deg, rgba(226,120,145,.14) 0 16px, transparent 16px 32px);
@@ -163,41 +164,97 @@ td.yes { color: var(--turtle); font-weight: 600; }
 #monday .week { border-color: var(--mhm-b); }
 #monday .week::before { background: var(--mhm-a); }
 #monday .week b { color: var(--mhm-a); }
-#monday .def { border-color: var(--mhm-a); }
+#monday .def { border-color: var(--mhm-a); max-width: none; }
 #monday .def strong { color: var(--mhm-a); }
-#monday .stat { --c: var(--mhm-a); }
-#monday .stat:nth-child(2) { --c: var(--mhm-b); }
-#monday .stat:nth-child(3) { --c: var(--mhm-a); }
-#monday .type .tag { background: var(--mhm-b); color: #fff; }
 #monday .mhm-corner { position: absolute; width: clamp(64px, 9vw, 104px); opacity: .92; pointer-events: none; z-index: 1; }
 #monday .mhm-corner.tl { top: 8px; left: 8px; }
 #monday .mhm-corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
-#monday .rel-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; }
+#monday .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Why are they important?: a light icon row instead of heavy cards */
+#monday .why-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; align-items: start; margin-top: 8px; }
+#monday .why-item { display: grid; justify-items: center; gap: 8px; text-align: center; }
+#monday .why-icon { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); border: 2px solid var(--mhm-b); color: var(--mhm-a); }
+#monday .why-icon svg { width: 22px; height: 22px; }
+#monday .why-label { font-family: var(--display); font-weight: 700; font-size: .95rem; color: var(--fg); }
+#monday .why-item p { font-size: .88rem; color: var(--muted); margin: 0; }
+@media (max-width: 760px) { #monday .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { #monday .why-grid { grid-template-columns: 1fr; } }
+
+#monday .rel-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; align-items: start; }
 #monday .rel-col { background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 20px 22px; display: grid; gap: 10px; align-content: start; border-top: 6px solid var(--c); }
 #monday .rel-col.good { --c: var(--mhm-b); }
 #monday .rel-col.bad { --c: var(--mhm-a); }
 #monday .rel-col h4 { font-family: var(--display); font-size: 1.05rem; color: var(--c); }
+#monday .rel-col.bad h4 { color: var(--mhm-a-text); }
 #monday .rel-col ul { display: grid; gap: 6px; color: var(--muted); font-size: .95rem; padding-left: 1.1em; }
-#monday .jar-widget { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 26px; align-items: center; margin-top: 28px; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 22px; }
-#monday .jar-wrap { position: relative; width: 140px; height: 180px; flex: none; }
-#monday .jar-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
-#monday .jar-fill {
-  position: absolute; left: 32px; top: 52px; width: 76px; height: 104px; z-index: 1; box-sizing: border-box;
-  border-radius: 0 0 10px 10px; overflow: hidden;
-  display: flex; flex-direction: row; flex-wrap: wrap-reverse; align-content: flex-start; justify-content: center;
-  gap: 3px; padding: 4px;
+
+/* What makes a relationship healthy?: flip cards, 3x2 */
+#monday .flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; margin-top: 8px; }
+#monday .flip-card { perspective: 1200px; }
+#monday .flip-card-inner { all: unset; cursor: pointer; display: block; position: relative; width: 100%; min-height: 190px; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+#monday .flip-card-inner:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 16px; }
+#monday .flip-card-inner.is-flipped { transform: rotateY(180deg); }
+#monday .flip-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px; border: 2px solid var(--line); background: var(--surface); padding: 20px; display: grid; gap: 10px; align-content: start; text-align: left; rotate: -.6deg; box-sizing: border-box; }
+#monday .flip-card-inner .tag { justify-self: start; font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; background: var(--mhm-b); color: #fff; }
+#monday .flip-back { transform: rotateY(180deg); rotate: .6deg; background: var(--pink-soft); border-color: var(--mhm-a); }
+#monday .flip-kicker { font-family: var(--display); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: var(--mhm-a-text); }
+#monday .flip-back p { font-family: var(--script); font-size: 1.2rem; line-height: 1.3; color: var(--fg); }
+@media (max-width: 760px) { #monday .flip-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { #monday .flip-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  #monday .flip-card-inner { transition: opacity .25s ease; transform: none !important; }
+  #monday .flip-back { opacity: 0; }
+  #monday .flip-card-inner.is-flipped .flip-front { opacity: 0; }
+  #monday .flip-card-inner.is-flipped .flip-back { opacity: 1; }
 }
-#monday .jar-note { height: 14px; border-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,.18); flex: none; }
-#monday .jar-side { display: grid; gap: 10px; }
-#monday .jar-form { display: flex; gap: 8px; flex-wrap: wrap; }
-#monday .jar-form input { flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 999px; border: 2px solid var(--line); font-family: var(--body); font-size: .95rem; background: var(--bg); color: var(--fg); }
-#monday .jar-form input:focus-visible { outline: 3px solid var(--sun); outline-offset: 1px; }
-#monday .jar-count { font-size: .92rem; color: var(--muted); font-weight: 600; }
-#monday .jar-notes-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; max-height: 140px; overflow-y: auto; }
-#monday .jar-notes-list li { background: var(--bg); border: 1px dashed var(--mhm-b); border-radius: 8px; padding: 6px 10px; font-size: .88rem; color: var(--fg); }
-#monday .jar-reset { justify-self: start; background: none; border: 0; padding: 2px 0; margin-top: 2px; font-family: var(--body); font-size: .85rem; font-weight: 600; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-#monday .jar-reset:hover { color: var(--mhm-a); }
-@media (max-width: 560px) { #monday .jar-widget { grid-template-columns: 1fr; justify-items: center; text-align: center; } #monday .jar-form { justify-content: center; } }
+
+/* How can we build stronger relationships?: a numbered timeline */
+#monday .step-timeline { list-style: none; margin: 8px 0 0; padding: 0; position: relative; display: grid; gap: 26px; }
+#monday .step-timeline::before { content: ""; position: absolute; left: 19px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+#monday .step-timeline-item { position: relative; display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; }
+#monday .step-num { position: relative; z-index: 1; width: 40px; height: 40px; border-radius: 50%; background: var(--mhm-b); color: var(--on-accent); font-family: var(--display); font-weight: 700; display: grid; place-items: center; font-size: 1.05rem; }
+#monday .step-title { font-weight: 700; font-size: 1.05rem; margin: 2px 0 4px; }
+#monday .step-sub { color: var(--muted); font-size: .95rem; margin: 0 0 8px; }
+#monday .step-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 600; color: var(--muted); cursor: pointer; }
+#monday .step-toggle input { width: 18px; height: 18px; accent-color: var(--mhm-a); }
+#monday .step-timeline-item.is-done .step-num { background: var(--mhm-a); }
+#monday .step-timeline-item.is-done .step-title { color: var(--mhm-a-text); }
+
+/* Gratitude lei: a sage strand of hibiscus flowers, one per note */
+#monday .lei-widget { display: grid; grid-template-columns: minmax(220px, 340px) minmax(0, 1fr); gap: 28px; align-items: center; margin-top: 28px; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 24px; }
+#monday .lei-wrap { position: relative; width: 100%; aspect-ratio: 320 / 200; }
+#monday .lei-strand { position: absolute; inset: 0; width: 100%; height: 100%; }
+#monday .lei-flowers { position: absolute; inset: 0; }
+#monday .lei-flower { all: unset; position: absolute; width: clamp(22px, 7vw, 30px); height: clamp(22px, 7vw, 30px); transform: translate(-50%, -50%); cursor: pointer; animation: lei-pop .35s ease-out; }
+#monday .lei-flower svg { width: 100%; height: 100%; overflow: visible; }
+#monday .lei-flower ellipse { fill: var(--fc, var(--mhm-a)); }
+#monday .lei-flower:hover, #monday .lei-flower:focus-visible { transform: translate(-50%, -50%) scale(1.2); }
+#monday .lei-flower:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 50%; }
+@keyframes lei-pop { from { transform: translate(-50%, -50%) scale(0); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { #monday .lei-flower { animation: none; } }
+#monday .lei-center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; pointer-events: none; }
+#monday .lei-center b { display: block; font-family: var(--display); font-size: 2.4rem; color: var(--mhm-a); line-height: 1; }
+#monday .lei-center span { font-size: .82rem; color: var(--muted); font-weight: 600; }
+#monday .lei-side { display: grid; gap: 10px; }
+#monday .lei-form { display: flex; gap: 8px; flex-wrap: wrap; }
+#monday .lei-form input { flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 999px; border: 2px solid var(--line); font-family: var(--body); font-size: .95rem; background: var(--bg); color: var(--fg); }
+#monday .lei-form input:focus-visible { outline: 3px solid var(--sun); outline-offset: 1px; }
+#monday .lei-error { color: var(--hibiscus); font-size: .88rem; font-weight: 600; margin: 0; }
+#monday .lei-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+#monday .lei-chip { all: unset; cursor: pointer; font-family: var(--body); font-size: .82rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: var(--turtle-soft); color: var(--turtle); border: 1px solid var(--mhm-b); }
+#monday .lei-chip:hover { background: var(--mhm-b); color: #fff; }
+#monday .lei-chip:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+#monday .lei-caption { font-size: .9rem; color: var(--muted); min-height: 1.4em; margin: 0; }
+#monday .lei-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+#monday .lei-link-btn { all: unset; cursor: pointer; font-family: var(--body); font-size: .85rem; font-weight: 600; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+#monday .lei-link-btn:hover { color: var(--mhm-a); }
+#monday .lei-link-btn:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 640px) { #monday .lei-widget { grid-template-columns: 1fr; } #monday .lei-form { justify-content: center; } #monday .lei-chips { justify-content: center; } #monday .lei-actions { justify-content: center; } }
+
+/* Important reminders: a pull-quote instead of a second dashed box */
+#monday .mhm-pullquote { margin-top: 12px; padding: 22px 26px 22px 30px; border-left: 6px solid var(--mhm-a); background: var(--pink-soft); border-radius: 4px 16px 16px 4px; position: relative; font-size: 1.05rem; color: var(--fg); }
+#monday .mhm-pullquote::before { content: "✿"; position: absolute; top: -14px; left: -14px; width: 30px; height: 30px; border-radius: 50%; background: var(--mhm-a-text); color: #fff; display: grid; place-items: center; font-size: .95rem; box-shadow: 0 4px 10px rgba(0,0,0,.18); }
 
 /* Members: taped-up profile cards */
 .members { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin-top: 8px; }
@@ -390,7 +447,7 @@ footer p { color: var(--muted); font-size: .9rem; }
   <div class="wrap">
     <div class="mhm-top">
       <div class="sec-head" style="margin: 0;">
-        <p class="eyebrow" style="color: #c2577e;">Mental Health Monday · This week</p>
+        <p class="eyebrow" style="color: #a8426a;">Mental Health Monday · This week</p>
         <h2>The Importance of <em>Relationships</em></h2>
       </div>
       <div class="week" aria-label="Week of Monday, November 23, 2026"><small>Week of</small><b>Nov 23</b></div>
@@ -401,27 +458,32 @@ footer p { color: var(--muted); font-size: .9rem; }
     <div class="sub">
       <h3 style="font-weight: 700; font-size: 1.5rem;">Why are they important?</h3>
     </div>
-    <div class="types">
-      <article class="type">
-        <span class="tag">Emotional support</span>
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+        <span class="why-label">Emotional support</span>
         <p>It helps us feel understood.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Sense of belonging</span>
+      </div>
+      <div class="why-item">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M14.3 14.3c2 .3 3.7 2 3.7 4.2"/></svg></span>
+        <span class="why-label">Sense of belonging</span>
         <p>It helps us feel accepted, valued, and less alone.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Stress management</span>
+      </div>
+      <div class="why-item">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/><path d="M2 10c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/></svg></span>
+        <span class="why-label">Stress management</span>
         <p>Talking through problems with someone we trust can make stressful situations easier to handle.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Personal growth</span>
+      </div>
+      <div class="why-item">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+        <span class="why-label">Personal growth</span>
         <p>Helps develop communication, empathy, patience, and understanding.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Self-esteem</span>
+      </div>
+      <div class="why-item">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 14.6 8.6 21.8 9.1 16.3 13.8 18 20.8 12 16.9 6 20.8 7.7 13.8 2.2 9.1 9.4 8.6"/></svg></span>
+        <span class="why-label">Self-esteem</span>
         <p>Helps encourage us and remind us of our worth.</p>
-      </article>
+      </div>
     </div>
 
     <div class="sub">
@@ -450,74 +512,142 @@ footer p { color: var(--muted); font-size: .9rem; }
 
     <div class="sub">
       <h3 style="font-weight: 700; font-size: 1.5rem;">What makes a relationship healthy?</h3>
+      <p class="lede">Tap a card to see what it actually sounds like.</p>
     </div>
-    <div class="types">
-      <article class="type">
-        <span class="tag">Trust</span>
-        <p>Feeling comfortable being yourself.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Communication</span>
-        <p>Being able to express your thoughts and feelings openly.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Respect</span>
-        <p>Acknowledging feelings, boundaries, and differences.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Support</span>
-        <p>Encouraging one another through good and hard times.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Boundaries</span>
-        <p>Understanding and respecting limits.</p>
-      </article>
-      <article class="type">
-        <span class="tag">Reciprocity</span>
-        <p>All people making an effort to maintain the relationship.</p>
-      </article>
+    <div class="flip-grid">
+      <div class="flip-card">
+        <button type="button" class="flip-card-inner" data-label="Trust" aria-pressed="false" aria-label="Trust — press to see an example.">
+          <span class="flip-face flip-front"><span class="tag">Trust</span><p>Feeling comfortable being yourself.</p></span>
+          <span class="flip-face flip-back"><span class="flip-kicker">What it sounds like</span><p>“I can be myself around you without pretending.”</p></span>
+        </button>
+      </div>
+      <div class="flip-card">
+        <button type="button" class="flip-card-inner" data-label="Communication" aria-pressed="false" aria-label="Communication — press to see an example.">
+          <span class="flip-face flip-front"><span class="tag">Communication</span><p>Being able to express your thoughts and feelings openly.</p></span>
+          <span class="flip-face flip-back"><span class="flip-kicker">What it sounds like</span><p>“Hey, that comment bothered me. Can we talk about it?”</p></span>
+        </button>
+      </div>
+      <div class="flip-card">
+        <button type="button" class="flip-card-inner" data-label="Respect" aria-pressed="false" aria-label="Respect — press to see an example.">
+          <span class="flip-face flip-front"><span class="tag">Respect</span><p>Acknowledging feelings, boundaries, and differences.</p></span>
+          <span class="flip-face flip-back"><span class="flip-kicker">What it sounds like</span><p>“I see it differently, but I get why you feel that way.”</p></span>
+        </button>
+      </div>
+      <div class="flip-card">
+        <button type="button" class="flip-card-inner" data-label="Support" aria-pressed="false" aria-label="Support — press to see an example.">
+          <span class="flip-face flip-front"><span class="tag">Support</span><p>Encouraging one another through good and hard times.</p></span>
+          <span class="flip-face flip-back"><span class="flip-kicker">What it sounds like</span><p>“You've got this. Want me to come with you?”</p></span>
+        </button>
+      </div>
+      <div class="flip-card">
+        <button type="button" class="flip-card-inner" data-label="Boundaries" aria-pressed="false" aria-label="Boundaries — press to see an example.">
+          <span class="flip-face flip-front"><span class="tag">Boundaries</span><p>Understanding and respecting limits.</p></span>
+          <span class="flip-face flip-back"><span class="flip-kicker">What it sounds like</span><p>“I can't talk tonight, but can we catch up tomorrow?”</p></span>
+        </button>
+      </div>
+      <div class="flip-card">
+        <button type="button" class="flip-card-inner" data-label="Reciprocity" aria-pressed="false" aria-label="Reciprocity — press to see an example.">
+          <span class="flip-face flip-front"><span class="tag">Reciprocity</span><p>All people making an effort to maintain the relationship.</p></span>
+          <span class="flip-face flip-back"><span class="flip-kicker">What it sounds like</span><p>“You always check on me. How are <em>you</em> doing?”</p></span>
+        </button>
+      </div>
     </div>
 
     <div class="sub">
       <h3 style="font-weight: 700; font-size: 1.5rem;">How can we build stronger relationships?</h3>
+      <p class="lede">Check off the ones you'll try this week — it's saved right here in your browser.</p>
     </div>
-    <ol class="steps">
-      <li><strong>Practice active listening</strong><p>Instead of just waiting for your turn to speak.</p></li>
-      <li><strong>Check in on friends and family</strong></li>
-      <li><strong>Communicate your feelings honestly</strong></li>
-      <li><strong>Make time for those who matter to you</strong></li>
-      <li><strong>Respect other people's boundaries</strong><p>And their perspectives.</p></li>
-      <li><strong>Show appreciation</strong><p>Through small acts of kindness.</p></li>
-      <li><strong>Be willing to apologize, forgive, and learn</strong><p>From misunderstandings.</p></li>
+    <ol class="step-timeline" id="stepTimeline" data-storage-key="mhm-2026-11-23-steps">
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">1</span>
+        <div class="step-body">
+          <p class="step-title">Practice active listening</p>
+          <p class="step-sub">Instead of just waiting for your turn to speak.</p>
+          <label class="step-toggle"><input type="checkbox" data-step="1"><span>Try this week</span></label>
+        </div>
+      </li>
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">2</span>
+        <div class="step-body">
+          <p class="step-title">Check in on friends and family</p>
+          <label class="step-toggle"><input type="checkbox" data-step="2"><span>Try this week</span></label>
+        </div>
+      </li>
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">3</span>
+        <div class="step-body">
+          <p class="step-title">Communicate your feelings honestly</p>
+          <label class="step-toggle"><input type="checkbox" data-step="3"><span>Try this week</span></label>
+        </div>
+      </li>
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">4</span>
+        <div class="step-body">
+          <p class="step-title">Make time for those who matter to you</p>
+          <label class="step-toggle"><input type="checkbox" data-step="4"><span>Try this week</span></label>
+        </div>
+      </li>
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">5</span>
+        <div class="step-body">
+          <p class="step-title">Respect other people's boundaries</p>
+          <p class="step-sub">And their perspectives.</p>
+          <label class="step-toggle"><input type="checkbox" data-step="5"><span>Try this week</span></label>
+        </div>
+      </li>
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">6</span>
+        <div class="step-body">
+          <p class="step-title">Show appreciation</p>
+          <p class="step-sub">Through small acts of kindness.</p>
+          <label class="step-toggle"><input type="checkbox" data-step="6"><span>Try this week</span></label>
+        </div>
+      </li>
+      <li class="step-timeline-item">
+        <span class="step-num" aria-hidden="true">7</span>
+        <div class="step-body">
+          <p class="step-title">Be willing to apologize, forgive, and learn</p>
+          <p class="step-sub">From misunderstandings.</p>
+          <label class="step-toggle"><input type="checkbox" data-step="7"><span>Try this week</span></label>
+        </div>
+      </li>
     </ol>
 
     <div class="sub">
-      <h3 style="font-weight: 700; font-size: 1.5rem;">A standing practice: your gratitude jar</h3>
-      <p class="lede">Gratitude is one way to strengthen your relationships, too — notice something a person in your life did for you, and drop it in the jar.</p>
+      <h3 style="font-weight: 700; font-size: 1.5rem;">A standing practice: your gratitude lei</h3>
+      <p class="lede">Who made your week better? Every mahalo adds a flower to your lei.</p>
     </div>
-    <div class="jar-widget">
-      <div class="jar-wrap">
-        <div class="jar-fill" id="jarFill" aria-hidden="true"></div>
-        <svg class="jar-svg" viewBox="0 0 140 180" aria-hidden="true">
-          <rect x="40" y="2" width="60" height="10" rx="3" style="fill:#9c7a4f"/>
-          <rect x="35" y="10" width="70" height="16" rx="4" style="fill:#7a5a35"/>
-          <path d="M30 26 H110 V34 a16 16 0 0 1 8 14 V156 a14 14 0 0 1-14 14 H36 a14 14 0 0 1-14-14 V48 a16 16 0 0 1 8-14 Z"
-                style="fill:rgba(255,255,255,.4); stroke:var(--mhm-a); stroke-width:3;"/>
+    <div class="lei-widget">
+      <div class="lei-wrap">
+        <svg class="lei-strand" viewBox="0 0 320 200" aria-hidden="true">
+          <ellipse cx="160" cy="100" rx="148" ry="88" fill="none" stroke="var(--mhm-b)" stroke-width="4" stroke-dasharray="10 9" stroke-linecap="round"/>
         </svg>
+        <div class="lei-flowers" id="leiFlowers"></div>
+        <div class="lei-center" aria-hidden="true"><b id="leiCount">0</b><span>flowers on your lei</span></div>
       </div>
-      <div class="jar-side">
-        <form id="jarForm" class="jar-form">
-          <input id="jarInput" type="text" maxlength="120" placeholder="I'm grateful for…" aria-label="I'm grateful for" autocomplete="off" required>
-          <button type="submit" class="btn">Add to jar</button>
+      <div class="lei-side">
+        <form id="leiForm" class="lei-form" novalidate>
+          <label class="sr-only" for="leiInput">Who made your week better?</label>
+          <input id="leiInput" type="text" maxlength="80" placeholder="My cousin drove me to practice" autocomplete="off">
+          <button type="submit" class="btn">Add a flower</button>
         </form>
-        <p class="jar-count" id="jarCount">Your jar is empty — add your first note!</p>
-        <ul class="jar-notes-list" id="jarNotesList" hidden></ul>
-        <button type="button" id="jarReset" class="jar-reset" hidden>Restart jar</button>
+        <p class="lei-error" id="leiError" role="alert" hidden>Write a note first</p>
+        <div class="lei-chips">
+          <button type="button" class="lei-chip">A friend who listened</button>
+          <button type="button" class="lei-chip">Someone who made me laugh</button>
+          <button type="button" class="lei-chip">A teacher who checked on me</button>
+          <button type="button" class="lei-chip">Family who showed up</button>
+        </div>
+        <p class="lei-caption" id="leiCaption">Hover or tap a flower to read its note.</p>
+        <div class="lei-actions">
+          <button type="button" id="leiSave" class="lei-link-btn">Save as image</button>
+          <button type="button" id="leiReset" class="lei-link-btn" hidden>Clear my lei</button>
+        </div>
       </div>
     </div>
 
     <div class="sub"><h3 style="font-weight: 700; font-size: 1.25rem;">Important reminders</h3></div>
-    <p class="def">You do not need hundreds of friends to feel connected — a few relationships can make a difference. Asking for support is a sign of self-awareness, not weakness. It's okay to outgrow certain relationships. Healthy relationships should let you feel respected and accepted. And you can care about someone while still establishing boundaries.</p>
+    <p class="mhm-pullquote">You do not need hundreds of friends to feel connected — a few relationships can make a difference. Asking for support is a sign of self-awareness, not weakness. It's okay to outgrow certain relationships. Healthy relationships should let you feel respected and accepted. And you can care about someone while still establishing boundaries.</p>
   </div>
 </section>
 <!-- ============ END MENTAL HEALTH MONDAY ============ -->
@@ -831,17 +961,27 @@ footer p { color: var(--muted); font-size: .9rem; }
 })();
 
 (function () {
-  var STORAGE_KEY = 'hooha-gratitude-jar-v1';
-  var form = document.getElementById('jarForm');
-  var input = document.getElementById('jarInput');
-  var fill = document.getElementById('jarFill');
-  var countEl = document.getElementById('jarCount');
-  var listEl = document.getElementById('jarNotesList');
-  var resetBtn = document.getElementById('jarReset');
-  if (!form || !input || !fill || !countEl) return;
+  var STORAGE_KEY = 'hooha-gratitude-lei-v1';
+  var form = document.getElementById('leiForm');
+  var input = document.getElementById('leiInput');
+  var errorEl = document.getElementById('leiError');
+  var flowersEl = document.getElementById('leiFlowers');
+  var countEl = document.getElementById('leiCount');
+  var captionEl = document.getElementById('leiCaption');
+  var resetBtn = document.getElementById('leiReset');
+  var saveBtn = document.getElementById('leiSave');
+  var chips = document.querySelectorAll('#monday .lei-chip');
+  if (!form || !input || !flowersEl || !countEl) return;
 
-  var palette = ['#c9682a', '#a996d6', '#5c8a42', '#eeb24c', '#d9487a'];
-  var FULL_AT = 18;
+  var DEFAULT_CAPTION = 'Hover or tap a flower to read its note.';
+  var PALETTE = ['#d9487a', '#c2577e', '#ff7f6a', '#f4b942', '#e8799a'];
+  var FLOWER_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+    '<ellipse cx="12" cy="6" rx="5" ry="7"/>' +
+    '<ellipse cx="12" cy="6" rx="5" ry="7" transform="rotate(72 12 12)"/>' +
+    '<ellipse cx="12" cy="6" rx="5" ry="7" transform="rotate(144 12 12)"/>' +
+    '<ellipse cx="12" cy="6" rx="5" ry="7" transform="rotate(216 12 12)"/>' +
+    '<ellipse cx="12" cy="6" rx="5" ry="7" transform="rotate(288 12 12)"/>' +
+    '<circle cx="12" cy="12" r="2.6" fill="var(--sun)"/></svg>';
 
   function load() {
     try {
@@ -856,60 +996,190 @@ footer p { color: var(--muted); font-size: .9rem; }
 
   var notes = load();
 
+  function flowerPosition(i, total) {
+    var slots = Math.max(total, 12);
+    var angle = (-90 + (i * 360 / slots)) * Math.PI / 180;
+    return { left: 50 + 46 * Math.cos(angle), top: 50 + 42 * Math.sin(angle) };
+  }
+
+  function showNote(note) { if (captionEl) captionEl.textContent = note; }
+  function resetCaption() { if (captionEl) captionEl.textContent = DEFAULT_CAPTION; }
+
   function render() {
-    fill.innerHTML = '';
-    notes.slice(-40).forEach(function (note, i) {
-      var chip = document.createElement('span');
-      chip.className = 'jar-note';
-      chip.style.width = (18 + (i % 5) * 3) + 'px';
-      chip.style.background = palette[i % palette.length];
-      chip.style.transform = 'rotate(' + (((i % 7) - 3) * 2) + 'deg)';
-      fill.appendChild(chip);
+    flowersEl.innerHTML = '';
+    notes.forEach(function (note, i) {
+      var pos = flowerPosition(i, notes.length);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lei-flower';
+      btn.style.left = pos.left + '%';
+      btn.style.top = pos.top + '%';
+      btn.style.setProperty('--fc', PALETTE[i % PALETTE.length]);
+      btn.setAttribute('aria-label', 'Flower: ' + note);
+      btn.innerHTML = FLOWER_SVG;
+      btn.addEventListener('mouseenter', function () { showNote(note); });
+      btn.addEventListener('focus', function () { showNote(note); });
+      btn.addEventListener('click', function () { showNote(note); });
+      btn.addEventListener('mouseleave', resetCaption);
+      btn.addEventListener('blur', resetCaption);
+      flowersEl.appendChild(btn);
     });
 
-    if (notes.length === 0) {
-      countEl.textContent = 'Your jar is empty — add your first note!';
-    } else if (notes.length === 1) {
-      countEl.textContent = '1 note in your jar.';
-    } else {
-      countEl.textContent = notes.length + ' notes in your jar' + (notes.length >= FULL_AT ? ' — it’s overflowing with gratitude! ✨' : '.');
-    }
-
-    if (listEl) {
-      listEl.innerHTML = '';
-      listEl.hidden = notes.length === 0;
-      notes.slice().reverse().forEach(function (note) {
-        var li = document.createElement('li');
-        li.textContent = note;
-        listEl.appendChild(li);
-      });
-    }
-
+    countEl.textContent = String(notes.length);
     if (resetBtn) resetBtn.hidden = notes.length === 0;
   }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var val = (input.value || '').trim();
-    if (!val) return;
-    notes.push(val.slice(0, 120));
+    if (!val) {
+      if (errorEl) errorEl.hidden = false;
+      return;
+    }
+    if (errorEl) errorEl.hidden = true;
+    notes.push(val.slice(0, 80));
     save(notes);
     input.value = '';
     render();
     input.focus();
   });
 
+  input.addEventListener('input', function () {
+    if (errorEl && !errorEl.hidden) errorEl.hidden = true;
+  });
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      input.value = chip.textContent;
+      if (errorEl) errorEl.hidden = true;
+      input.focus();
+    });
+  });
+
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       if (notes.length === 0) return;
-      if (!window.confirm('Empty your gratitude jar? This removes all ' + notes.length + ' of your notes and can’t be undone.')) return;
+      if (!window.confirm('Clear your gratitude lei? This removes all ' + notes.length + ' flowers and can’t be undone.')) return;
       notes = [];
       save(notes);
+      resetCaption();
       render();
     });
   }
 
+  if (saveBtn) saveBtn.addEventListener('click', exportLeiAsPng);
+
+  function drawFlower(ctx, x, y, color) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.fillStyle = color;
+    for (var p = 0; p < 5; p++) {
+      ctx.save();
+      ctx.rotate((p * 72) * Math.PI / 180);
+      ctx.beginPath();
+      ctx.ellipse(0, -7, 6, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.fillStyle = '#eeb24c';
+    ctx.beginPath();
+    ctx.arc(0, 0, 3.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function exportLeiAsPng() {
+    var W = 640, H = 460;
+    var canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.fillStyle = '#fffbf2';
+    ctx.fillRect(0, 0, W, H);
+
+    var cx = W / 2, cy = H / 2 - 6, rx = W * 0.42, ry = H * 0.36;
+    ctx.save();
+    ctx.setLineDash([10, 9]);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#5f9d6e';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    notes.forEach(function (note, i) {
+      var pos = flowerPosition(i, notes.length);
+      var fx = cx + (rx * 2) * ((pos.left - 50) / 100);
+      var fy = cy + (ry * 2) * ((pos.top - 50) / 100);
+      drawFlower(ctx, fx, fy, PALETTE[i % PALETTE.length]);
+    });
+
+    ctx.fillStyle = '#c2577e';
+    ctx.font = '700 40px "Baloo 2", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(String(notes.length), cx, cy + 6);
+    ctx.fillStyle = '#8a7a62';
+    ctx.font = '600 15px "Quicksand", sans-serif';
+    ctx.fillText('flowers on your lei', cx, cy + 30);
+
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'gratitude-lei.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  resetCaption();
   render();
+})();
+
+(function () {
+  var cards = document.querySelectorAll('#monday .flip-card-inner');
+  cards.forEach(function (card) {
+    var label = card.getAttribute('data-label') || '';
+    card.addEventListener('click', function () {
+      var flipped = card.classList.toggle('is-flipped');
+      card.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+      card.setAttribute('aria-label', flipped
+        ? label + ' — showing example. Press to flip back.'
+        : label + ' — press to see an example.');
+    });
+  });
+})();
+
+(function () {
+  var list = document.getElementById('stepTimeline');
+  if (!list) return;
+  var STORAGE_KEY = list.getAttribute('data-storage-key') || 'mhm-steps';
+  var boxes = list.querySelectorAll('input[type="checkbox"]');
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var parsed = raw ? JSON.parse(raw) : {};
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (e) { return {}; }
+  }
+  function save(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  var state = load();
+
+  boxes.forEach(function (box) {
+    var key = box.getAttribute('data-step');
+    var item = box.closest('.step-timeline-item');
+    if (state[key]) {
+      box.checked = true;
+      if (item) item.classList.add('is-done');
+    }
+    box.addEventListener('change', function () {
+      state[key] = box.checked;
+      save(state);
+      if (item) item.classList.toggle('is-done', box.checked);
+    });
+  });
 })();
 </script>
 

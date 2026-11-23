@@ -148,15 +148,14 @@ td.yes { color: var(--turtle); font-weight: 600; }
 .script .say { font-family: var(--script); font-size: 1.4rem; color: var(--hibiscus); }
 .source { margin-top: 28px; font-size: .85rem; color: var(--muted); }
 
-/* Mental Health Monday — this week's theme (gratitude): fall pumpkin-orange
-   and lavender plaid, matching this week's Instagram graphic */
+/* Mental Health Monday — this week's theme (the importance of
+   relationships): strawberry-pink stripes and mauve accents, matching
+   this week's Instagram graphic */
 #monday {
-  --mhm-a: #c9682a;
-  --mhm-b: #a996d6;
-  background-color: #f5f0fb;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(159,140,200,.16) 0 2px, transparent 2px 34px),
-    repeating-linear-gradient(90deg, rgba(159,140,200,.16) 0 2px, transparent 2px 34px);
+  --mhm-a: #c2577e;
+  --mhm-b: #5f9d6e;
+  background-color: #fdf1f4;
+  background-image: repeating-linear-gradient(90deg, rgba(226,120,145,.14) 0 16px, transparent 16px 32px);
   border-block-color: var(--mhm-a);
 }
 #monday .pin { color: var(--mhm-a); }
@@ -173,6 +172,12 @@ td.yes { color: var(--turtle); font-weight: 600; }
 #monday .mhm-corner { position: absolute; width: clamp(64px, 9vw, 104px); opacity: .92; pointer-events: none; z-index: 1; }
 #monday .mhm-corner.tl { top: 8px; left: 8px; }
 #monday .mhm-corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+#monday .rel-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; }
+#monday .rel-col { background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 20px 22px; display: grid; gap: 10px; align-content: start; border-top: 6px solid var(--c); }
+#monday .rel-col.good { --c: var(--mhm-b); }
+#monday .rel-col.bad { --c: var(--mhm-a); }
+#monday .rel-col h4 { font-family: var(--display); font-size: 1.05rem; color: var(--c); }
+#monday .rel-col ul { display: grid; gap: 6px; color: var(--muted); font-size: .95rem; padding-left: 1.1em; }
 #monday .jar-widget { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 26px; align-items: center; margin-top: 28px; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 22px; }
 #monday .jar-wrap { position: relative; width: 140px; height: 180px; flex: none; }
 #monday .jar-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
@@ -343,82 +348,152 @@ footer p { color: var(--muted); font-size: .9rem; }
 <section class="mhm home-view" id="monday" style="margin-top: clamp(48px, 8vw, 88px);">
   <span class="pin" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16h14v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1Z"/></svg></span>
   <svg class="mhm-corner tl" viewBox="0 0 160 160" aria-hidden="true">
-    <ellipse cx="34" cy="42" rx="32" ry="14" transform="rotate(-20 34 42)" style="fill:var(--mhm-b)" opacity=".5"/>
-    <ellipse cx="18" cy="78" rx="22" ry="10" transform="rotate(35 18 78)" style="fill:var(--turtle)" opacity=".35"/>
-    <g transform="translate(58 92)">
-      <ellipse cx="-17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
-      <ellipse cx="0" cy="-2" rx="17" ry="26" style="fill:var(--mhm-a)"/>
-      <ellipse cx="17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
+    <path d="M46 46c-10-16-30-20-40-10 10 8 14 22 24 28z" style="fill:var(--mhm-b)" opacity=".85"/>
+    <path d="M54 44c-2-18-18-28-30-22 10 10 12 26 20 34z" style="fill:var(--mhm-b)" opacity=".65"/>
+    <path d="M40 48c-24 0-36 24-26 46 9 20 34 20 46 2 11-17 4-40-20-48z" style="fill:var(--mhm-a)"/>
+    <circle cx="26" cy="68" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="40" cy="62" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="52" cy="70" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="30" cy="82" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="46" cy="86" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="36" cy="96" r="2.2" style="fill:#ffe3ea"/>
+    <g transform="translate(112 112)">
+      <circle cx="-7" cy="-7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="7" cy="-7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="-7" cy="7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="7" cy="7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="0" cy="0" r="6" style="fill:var(--sun)"/>
     </g>
-    <rect x="52" y="48" width="11" height="20" rx="4" transform="rotate(-10 57.5 58)" style="fill:#7a5a35"/>
-    <path d="M64 50c9-9 3-17 11-24" stroke="var(--turtle)" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <circle cx="120" cy="110" r="5" style="fill:var(--mhm-b)"/>
-    <circle cx="105" cy="130" r="4" style="fill:var(--sun)"/>
+    <circle cx="118" cy="40" r="4" style="fill:var(--mhm-b)" opacity=".6"/>
+    <circle cx="130" cy="54" r="3" style="fill:var(--mhm-a)" opacity=".5"/>
   </svg>
   <svg class="mhm-corner tr" viewBox="0 0 160 160" aria-hidden="true">
-    <ellipse cx="34" cy="42" rx="32" ry="14" transform="rotate(-20 34 42)" style="fill:var(--mhm-b)" opacity=".5"/>
-    <ellipse cx="18" cy="78" rx="22" ry="10" transform="rotate(35 18 78)" style="fill:var(--turtle)" opacity=".35"/>
-    <g transform="translate(58 92)">
-      <ellipse cx="-17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
-      <ellipse cx="0" cy="-2" rx="17" ry="26" style="fill:var(--mhm-a)"/>
-      <ellipse cx="17" cy="2" rx="16" ry="23" style="fill:var(--mhm-a)" opacity=".8"/>
+    <path d="M46 46c-10-16-30-20-40-10 10 8 14 22 24 28z" style="fill:var(--mhm-b)" opacity=".85"/>
+    <path d="M54 44c-2-18-18-28-30-22 10 10 12 26 20 34z" style="fill:var(--mhm-b)" opacity=".65"/>
+    <path d="M40 48c-24 0-36 24-26 46 9 20 34 20 46 2 11-17 4-40-20-48z" style="fill:var(--mhm-a)"/>
+    <circle cx="26" cy="68" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="40" cy="62" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="52" cy="70" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="30" cy="82" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="46" cy="86" r="2.2" style="fill:#ffe3ea"/>
+    <circle cx="36" cy="96" r="2.2" style="fill:#ffe3ea"/>
+    <g transform="translate(112 112)">
+      <circle cx="-7" cy="-7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="7" cy="-7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="-7" cy="7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="7" cy="7" r="7" style="fill:#fff" opacity=".92"/>
+      <circle cx="0" cy="0" r="6" style="fill:var(--sun)"/>
     </g>
-    <rect x="52" y="48" width="11" height="20" rx="4" transform="rotate(-10 57.5 58)" style="fill:#7a5a35"/>
-    <path d="M64 50c9-9 3-17 11-24" stroke="var(--turtle)" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <circle cx="120" cy="110" r="5" style="fill:var(--mhm-b)"/>
-    <circle cx="105" cy="130" r="4" style="fill:var(--sun)"/>
+    <circle cx="118" cy="40" r="4" style="fill:var(--mhm-b)" opacity=".6"/>
+    <circle cx="130" cy="54" r="3" style="fill:var(--mhm-a)" opacity=".5"/>
   </svg>
   <div class="wrap">
     <div class="mhm-top">
       <div class="sec-head" style="margin: 0;">
-        <p class="eyebrow" style="color: #c9682a;">Mental Health Monday · This week</p>
-        <h2>Practicing <em>gratitude</em></h2>
+        <p class="eyebrow" style="color: #c2577e;">Mental Health Monday · This week</p>
+        <h2>The Importance of <em>Relationships</em></h2>
       </div>
-      <div class="week" aria-label="Week of Monday, November 16, 2026"><small>Week of</small><b>Nov 16</b></div>
+      <div class="week" aria-label="Week of Monday, November 23, 2026"><small>Week of</small><b>Nov 23</b></div>
     </div>
 
-    <p class="def"><strong>Gratitude</strong> is an emotion you feel when expressing thankfulness for the things in your life. It can also be practiced as a way to cope with stress and be more present.</p>
-
-    <div class="stats">
-      <div class="stat"><b>Happier</b><span>the “gratitude visit” exercise produced the biggest happiness boost of 6 exercises tested, in a 577-person study</span></div>
-      <div class="stat"><b>Stronger</b><span>8 weeks of gratitude journaling lowered inflammation markers in a heart-health study</span></div>
-      <div class="stat"><b>Better</b><span>higher gratitude was linked to better sleep quality, longer sleep, and falling asleep faster</span></div>
-    </div>
-    <p class="source">Research: Seligman, Steen, Park &amp; Peterson (2005), <i>American Psychologist</i>, on the “gratitude visit.” Redwine et al. (2016), <i>Psychosomatic Medicine</i>, on gratitude journaling and inflammation. Wood, Joseph, Lloyd &amp; Atkins (2009), <i>Journal of Psychosomatic Research</i>, on gratitude and sleep.</p>
+    <p class="def">Relationships are very important to our mental health because we naturally need connection, support, and a sense of belonging. The people we surround ourselves with can influence how we think, feel, behave, and view ourselves.</p>
 
     <div class="sub">
-      <h3 style="font-weight: 700; font-size: 1.5rem;">Why practice gratitude?</h3>
-      <p class="lede">Practicing gratitude allows for a change in mindset! It can lead to a happier, more grateful life, improving mental health and boosting your mood.</p>
-    </div>
-
-    <div class="sub">
-      <h3 style="font-weight: 700; font-size: 1.5rem;">How can we practice gratitude?</h3>
-      <p class="lede">A few easy ways to get started this week.</p>
+      <h3 style="font-weight: 700; font-size: 1.5rem;">Why are they important?</h3>
     </div>
     <div class="types">
       <article class="type">
-        <span class="tag">Express it</span>
-        <h3>Towards others</h3>
-        <p>Tell your loved ones something you appreciate about them.</p>
-        <p class="ex">“I'm grateful for how you always listen.”</p>
+        <span class="tag">Emotional support</span>
+        <p>It helps us feel understood.</p>
       </article>
       <article class="type">
-        <span class="tag">Create</span>
-        <h3>Gratitude crafts</h3>
-        <p>Expressing thanks doesn't have to just be through words — try fun crafts like gratitude chains and gratitude jars!</p>
-        <p class="ex">Add one slip of paper to your jar each day.</p>
+        <span class="tag">Sense of belonging</span>
+        <p>It helps us feel accepted, valued, and less alone.</p>
       </article>
       <article class="type">
-        <span class="tag">Reflect</span>
-        <h3>Gratitude walk</h3>
-        <p>Take some time to go outside and reflect on the things you're grateful for, big or small.</p>
-        <p class="ex">Notice 3 things on your walk you're thankful for.</p>
+        <span class="tag">Stress management</span>
+        <p>Talking through problems with someone we trust can make stressful situations easier to handle.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Personal growth</span>
+        <p>Helps develop communication, empathy, patience, and understanding.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Self-esteem</span>
+        <p>Helps encourage us and remind us of our worth.</p>
       </article>
     </div>
 
     <div class="sub">
-      <h3 style="font-weight: 700; font-size: 1.5rem;">Try it: your gratitude jar</h3>
-      <p class="lede">Type something you're grateful for and drop it in. Your jar fills up the more you add — come back anytime and keep going.</p>
+      <h3 style="font-weight: 700; font-size: 1.5rem;">How do relationships affect mental health?</h3>
+    </div>
+    <div class="rel-compare">
+      <div class="rel-col good">
+        <h4>Positive relationships…</h4>
+        <ul>
+          <li>Increase feelings of happiness and security</li>
+          <li>Provide encouragement and reassurance</li>
+          <li>Help reduce feelings of loneliness</li>
+          <li>Create a safe space to express emotions</li>
+        </ul>
+      </div>
+      <div class="rel-col bad">
+        <h4>Negative relationships…</h4>
+        <ul>
+          <li>Can contribute to stress and anxiety</li>
+          <li>May lower self-esteem and confidence</li>
+          <li>Can create feelings of insecurity or loneliness</li>
+          <li>May make it difficult to express yourself freely</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 style="font-weight: 700; font-size: 1.5rem;">What makes a relationship healthy?</h3>
+    </div>
+    <div class="types">
+      <article class="type">
+        <span class="tag">Trust</span>
+        <p>Feeling comfortable being yourself.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Communication</span>
+        <p>Being able to express your thoughts and feelings openly.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Respect</span>
+        <p>Acknowledging feelings, boundaries, and differences.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Support</span>
+        <p>Encouraging one another through good and hard times.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Boundaries</span>
+        <p>Understanding and respecting limits.</p>
+      </article>
+      <article class="type">
+        <span class="tag">Reciprocity</span>
+        <p>All people making an effort to maintain the relationship.</p>
+      </article>
+    </div>
+
+    <div class="sub">
+      <h3 style="font-weight: 700; font-size: 1.5rem;">How can we build stronger relationships?</h3>
+    </div>
+    <ol class="steps">
+      <li><strong>Practice active listening</strong><p>Instead of just waiting for your turn to speak.</p></li>
+      <li><strong>Check in on friends and family</strong></li>
+      <li><strong>Communicate your feelings honestly</strong></li>
+      <li><strong>Make time for those who matter to you</strong></li>
+      <li><strong>Respect other people's boundaries</strong><p>And their perspectives.</p></li>
+      <li><strong>Show appreciation</strong><p>Through small acts of kindness.</p></li>
+      <li><strong>Be willing to apologize, forgive, and learn</strong><p>From misunderstandings.</p></li>
+    </ol>
+
+    <div class="sub">
+      <h3 style="font-weight: 700; font-size: 1.5rem;">A standing practice: your gratitude jar</h3>
+      <p class="lede">Gratitude is one way to strengthen your relationships, too — notice something a person in your life did for you, and drop it in the jar.</p>
     </div>
     <div class="jar-widget">
       <div class="jar-wrap">
@@ -441,8 +516,8 @@ footer p { color: var(--muted); font-size: .9rem; }
       </div>
     </div>
 
-    <div class="sub"><h3 style="font-weight: 700; font-size: 1.25rem;">Before you start</h3></div>
-    <p class="def">These aren't the only ways to practice gratitude — feel free to find your own. And remember: gratitude shouldn't be a feeling that makes you feel guilty! It's normal to feel sad while also being grateful. At the end of the day, we're all left with something to be grateful for, no matter what!</p>
+    <div class="sub"><h3 style="font-weight: 700; font-size: 1.25rem;">Important reminders</h3></div>
+    <p class="def">You do not need hundreds of friends to feel connected — a few relationships can make a difference. Asking for support is a sign of self-awareness, not weakness. It's okay to outgrow certain relationships. Healthy relationships should let you feel respected and accepted. And you can care about someone while still establishing boundaries.</p>
   </div>
 </section>
 <!-- ============ END MENTAL HEALTH MONDAY ============ -->
